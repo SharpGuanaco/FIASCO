@@ -20,4 +20,13 @@ void loop() {
     radio.read(&text, sizeof(text));
     Serial.println(text);
   }
+
+  if (Serial.available()) {
+    char c = toupper(Serial.read());
+    if (c == 'C') {
+      Serial.println(F("Clearing\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));
+      
+    }
+  }
+
 }
