@@ -3,9 +3,9 @@
 #include <nRF24L01.h>
 #include <RF24.h>
 //finger detection pins
-int thumbDetector = 4;
+int thumbDetector = 2;
 int pointerDetector = 3;
-int middleDetector = 2;
+int middleDetector = 4;
 int ringDetector = 5;
 int pinkyDetector = 6;
 RF24 radio(7, 8); // CE, CSN
@@ -54,9 +54,10 @@ void setup() {
 
 void loop() {
   //check for changes in finger positions
-  const int messageIndex = checkTriggered();
+  unsigned long messageIndex = checkTriggered();
+  Serial.println(messageIndex);
   //send updates to robot controller arduino
-  radio.write(&messageIndex, sizeof(int));
+  radio.write(&messageIndex, sizeof(unsigned long));
   //delay to allow for finger movements, adjust as needed
   delay(1000);
 }
@@ -64,7 +65,7 @@ void loop() {
 
 int checkTriggered(){
   String message = "None";
-  int messageIndex = -1;
+  int messageIndex = 1000;
   //create array of all finger positions
   bool triggered[5] = {digitalRead(thumbDetector),digitalRead(pointerDetector),digitalRead(middleDetector),digitalRead(ringDetector),digitalRead(pinkyDetector)};
   //check to see if array matches any known configurations

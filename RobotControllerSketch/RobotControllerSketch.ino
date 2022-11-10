@@ -38,12 +38,14 @@ void setup() {
 void loop() {
   //read radio to see if messages are sent
   if (radio.available()) {
-    char text[32] = "";
-    int received = -2;
-    radio.read(&received, sizeof(int));
-    if (received >= 0){
+    unsigned long received = 1000;
+    radio.read(&received, sizeof(unsigned long));
+    if (received >= 0 && received <= 999){
       Serial.println(messages[received]);
+    }else if(received == 1000){
+      Serial.println("None");
     }else{
+      Serial.println("error");
       Serial.println(received);
     }
   }
