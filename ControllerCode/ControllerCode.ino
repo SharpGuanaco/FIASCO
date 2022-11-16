@@ -1,15 +1,21 @@
 //2023 FIASCO Finger Controller Sketch
+
+//imports
 #include <SPI.h>
 #include <nRF24L01.h>
 #include <RF24.h>
+
 //finger detection pins
 int thumbDetector = 2;
 int pointerDetector = 3;
 int middleDetector = 4;
 int ringDetector = 5;
 int pinkyDetector = 6;
+
+// radio setup
 RF24 radio(7, 8); // CE, CSN
 const byte address[6] = "00001";
+
 //Thumb, Pointer, Middle, Ring, Pinky
 //To add commands, increment the number below to the corresponding amount
 const int numMessages = 6;
@@ -21,7 +27,7 @@ const bool checks[numMessages][5] = {
   {false,false,true,true,true},
   {false,true,true,true,true},
   {true,false,false,true,true},
-  {true,false,false,false,false}
+  {true,false,false,false,true}
 };
 //related Strings, add the wanted command to the end of the list
 //not actually transmitted, but useful for troubleshooting. The other arduino converts the index of the list to the necessary message.
@@ -32,8 +38,11 @@ const String messages[numMessages] = {
   "LEFT",
   "RIGHT",
   "BACK",
-  "TEST"
+  "CENTER"
 };
+
+// transmission rate of radio, in ms
+const int radioDelay = 50;
 
 
 void setup() {
@@ -52,14 +61,14 @@ void setup() {
   Serial.begin(9600);
 }
 
+
 void loop() {
   //check for changes in finger positions
   unsigned long messageIndex = checkTriggered();
-  Serial.println(messageIndex);
   //send updates to robot controller arduino
   radio.write(&messageIndex, sizeof(unsigned long));
   //delay to allow for finger movements, adjust as needed
-  delay(100);
+  delay(radioDelay);
 }
 
 
