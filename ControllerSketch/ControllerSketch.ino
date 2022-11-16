@@ -59,7 +59,7 @@ void loop() {
   //send updates to robot controller arduino
   radio.write(&messageIndex, sizeof(unsigned long));
   //delay to allow for finger movements, adjust as needed
-  delay(1000);
+  delay(100);
 }
 
 

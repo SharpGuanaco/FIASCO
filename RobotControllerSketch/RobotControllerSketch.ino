@@ -2,11 +2,17 @@
 #include <SPI.h>
 #include <nRF24L01.h>
 #include <RF24.h>
+#include <Servo.h>
+
 
 RF24 radio(7, 8); // CE, CSN
 //ESC controller pins
-int leftESC = 3;
-int rightESC = 4;
+Servo ESC;
+Servo direction;
+
+int left = 70;
+int center = 100;
+int right = 110;
 
 const byte address[6] = "00001";
 
@@ -31,8 +37,8 @@ void setup() {
   radio.setPALevel(RF24_PA_MIN);
   radio.startListening();
   //initialize output pins
-  pinMode(leftESC, OUTPUT);
-  pinMode(rightESC, OUTPUT);
+  ESC.attach(5); 
+  direction.attach(6);
 }
 
 void loop() {
@@ -41,14 +47,28 @@ void loop() {
     unsigned long received = 1000;
     radio.read(&received, sizeof(unsigned long));
     if (received >= 0 && received <= 999){
+      if(received == 1){
+        ESC.writeMicroseconds(1565);
+      }else if (received == 0){
+        direction.write(center);
+      }else if (received == 2){
+        direction.write(left);
+
+      }else if (received == 3){
+        direction.write(right);
+      }else if (received == 4){
+        ESC.writeMicroseconds(1400);
+      }
       Serial.println(messages[received]);
     }else if(received == 1000){
       Serial.println("None");
+      ESC.writeMicroseconds(1500);
     }else{
       Serial.println("error");
       Serial.println(received);
     }
   }
+
 
   //Serial input commands
   if (Serial.available()) {
