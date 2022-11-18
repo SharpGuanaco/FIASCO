@@ -16,7 +16,7 @@ Servo direction;
 
 // Servo direction control constants
 const int left = 70;
-const int center = 100;
+const int center = 97;
 const int right = 110;
 
 //list of commands, to help translate recieved indexes
@@ -60,7 +60,7 @@ void loop() {
       // Forward and reverse directions are only activated if continually recieved.
       String command = messages[received];
       if(command == "FORWARD"){ // forward
-        ESC.writeMicroseconds(1565);
+        ESC.writeMicroseconds(1570);
       }else if (command == "CENTER"){ // turning direction -> center
         direction.write(center);
       }else if (command == "LEFT"){ // turning direction -> left
