@@ -51,6 +51,7 @@ void setup() {
   radio.begin();
   radio.openWritingPipe(address);
   radio.setPALevel(RF24_PA_MIN);
+  radio.setAutoAck(false);
   radio.stopListening();
   //initialize detectors
   pinMode(thumbDetector,INPUT);
@@ -67,7 +68,8 @@ void loop() {
   //check for changes in finger positions
   unsigned long messageIndex = checkTriggered();
   //send updates to robot controller arduino
-  radio.write(&messageIndex, sizeof(unsigned long));
+  bool report = radio.write(&messageIndex, sizeof(unsigned long));
+  Serial.println(report);
   //delay to allow for finger movements, adjust as needed
   delay(radioDelay);
 }
