@@ -4,6 +4,7 @@
 #include <SPI.h>
 #include <nRF24L01.h>
 #include <RF24.h>
+#include <RF24_config.h>
 #include <Servo.h>
 
 // radio setup
@@ -40,7 +41,11 @@ void setup() {
   radio.openReadingPipe(0, address);
   radio.setPALevel(RF24_PA_MIN);
   radio.setAutoAck(false);
+  radio.setDataRate(RF24_250KBPS);
+  radio.setChannel(1);
   radio.startListening();
+  radio.printDetails();
+
   //initialize robot controller pins
   ESC.attach(5); 
   direction.attach(6);

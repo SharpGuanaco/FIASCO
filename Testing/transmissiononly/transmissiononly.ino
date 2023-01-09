@@ -15,11 +15,12 @@ void setup() {
   Serial.begin(9600);
 }
 
+unsigned long i = 0;
 void loop() {
-  if (digitalRead(detectorPin) == HIGH){
-    Serial.println("HELP IM BEING TOUCHED");
-    const char text[] = "Circuit Detected!";
-    radio.write(&text, sizeof(text));
+  i = i+1;
+  if (digitalRead(detectorPin) == LOW){
+    Serial.println(i);
+    radio.write(&i, sizeof(unsigned long));
     delay(1000);
   }
 }

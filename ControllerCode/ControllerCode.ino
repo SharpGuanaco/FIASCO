@@ -52,7 +52,10 @@ void setup() {
   radio.openWritingPipe(address);
   radio.setPALevel(RF24_PA_MIN);
   radio.setAutoAck(false);
+  radio.setDataRate(RF24_250KBPS);
+  radio.setChannel(1);
   radio.stopListening();
+  radio.printDetails();
   //initialize detectors
   pinMode(thumbDetector,INPUT);
   pinMode(pointerDetector,INPUT);
