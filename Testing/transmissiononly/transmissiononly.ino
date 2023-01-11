@@ -12,7 +12,7 @@ void setup() {
   radio.setPALevel(RF24_PA_MIN);
   radio.stopListening();
   pinMode(detectorPin,INPUT);
-  Serial.begin(9600);
+  Serial.begin(115200);
 }
 
 unsigned long i = 0;
