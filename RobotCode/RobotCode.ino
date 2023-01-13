@@ -12,13 +12,19 @@ RF24 radio(7, 8); // CE, CSN
 const byte address[6] = "00001";
 
 //Robot Control Objects + Pins
-Servo ESC;
-Servo direction;
+Servo left;
+Servo right;
 
 // Servo direction control constants
-const int left = 70;
-const int center = 97;
-const int right = 110;
+// const int left = 70;
+// const int center = 97;
+// const int right = 110;
+const int rightStopValue = 95;
+const int leftStopValue = 94;
+const int leftForwardVal = 0;
+const int rightForwardVal = 180;
+const int leftBackVal = 180;
+const int rightBackVal = 0;
 
 //list of commands, to help translate recieved indexes
 //update both length and values as necessary
@@ -47,11 +53,13 @@ void setup() {
   radio.printDetails();
 
   //initialize robot controller pins
-  ESC.attach(5); 
-  direction.attach(6);
+  left.attach(2); 
+  right.attach(3);
   //set initial direction to center and intial speed to 0
-  direction.write(center);
-  ESC.writeMicroseconds(1500);
+  left.write(0);
+  right.write(0);
+
+  pinMode(5,OUTPUT);
 }
 
 
@@ -61,20 +69,23 @@ void loop() {
     unsigned long received = 1000;
     radio.read(&received, sizeof(unsigned long));
     if (received >= 0 && received <= 999){
+      digitalWrite(5,LOW);
       // move robot if commands are sent
       // turning direction commands are triggers, and stay in place until a new servo direction is set. 
       // Forward and reverse directions are only activated if continually recieved.
       String command = messages[received];
       if(command == "FORWARD"){ // forward
-        ESC.writeMicroseconds(1570);
-      }else if (command == "CENTER"){ // turning direction -> center
-        direction.write(center);
+        left.write(leftForwardVal);
+        right.write(rightForwardVal);
       }else if (command == "LEFT"){ // turning direction -> left
-        direction.write(left);
+        left.write(leftForwardVal);
+        right.write(rightBackVal);
       }else if (command == "RIGHT"){ // turning direction -> right
-        direction.write(right);
+        left.write(leftBackVal);
+        right.write(rightForwardVal);
       }else if (command == "BACK"){ // reverse
-        ESC.writeMicroseconds(1400);
+        left.write(leftBackVal);
+        right.write(rightBackVal);
       }
       // print recieved message/command
       Serial.println(command);
@@ -82,7 +93,9 @@ void loop() {
       // blank command received
       Serial.println("NONE");
       // set speed to 0 when no forward or reverse command is received
-      ESC.writeMicroseconds(1500);
+      left.write(leftStopValue);
+      right.write(rightStopValue);
+      digitalWrite(5,HIGH);
     }else{
       // error in receiving
       Serial.println("ERROR");
