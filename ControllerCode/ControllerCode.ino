@@ -43,7 +43,7 @@ const String messages[numMessages] = {
 
 // transmission rate of radio, in ms
 // round-trip delay currently around 2000 microseconds, or 2 ms. 
-const int radioDelay = 5;
+const int radioDelay = 50;
 
 
 void setup() {
