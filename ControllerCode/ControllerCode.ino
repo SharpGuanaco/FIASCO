@@ -22,12 +22,12 @@ const int numMessages = 6;
 //next add the wanted trigger to the end of the array, in {thumb,pointer,middle,ring,pinky} format. 
 //True means the finger is contracted while false means the finger is extended
 const bool checks[numMessages][5] = {
-  {true,true,true,true,true},
-  {true,true,false,true,true},
-  {false,false,true,true,true},
-  {false,true,true,true,true},
-  {true,false,false,true,true},
-  {true,false,false,false,true}
+  {true,true,true,true,true}, // GRAB
+  {true,false,false,false,false}, // FORWARD
+  {false,true,false,false,false}, // LEFT
+  {true,true,true,false,false}, // RIGHT
+  {false,false,true,false,false}, // BACK
+  {true,false,false,false,true} // CENTER
 };
 //related Strings, add the wanted command to the end of the list
 //not actually transmitted, but useful for troubleshooting. The other arduino converts the index of the list to the necessary message.
@@ -70,6 +70,7 @@ void setup() {
 void loop() {
   //check for changes in finger positions
   unsigned long messageIndex = checkTriggered();
+
   //send updates to robot controller arduino
   bool report = radio.write(&messageIndex, sizeof(unsigned long));
   Serial.println(report);
