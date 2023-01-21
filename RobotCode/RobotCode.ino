@@ -15,18 +15,24 @@ const int radioChannel = 1;
 //Robot Control Objects + Pins
 Servo left;
 Servo right;
+Servo claw;
 
 const int leftServoPin = 2;
 const int rightServoPin = 3;
+const int clawPin = 4;
 const int ledPin = 5;
 
 //Servo values
 const int rightStopValue = 95;
 const int leftStopValue = 94;
+const int leftStopValue = 94;
 const int leftForwardVal = 0;
 const int rightForwardVal = 180;
 const int leftBackVal = 180;
 const int rightBackVal = 0;
+const int clawCloseVal = 0;
+const int clawOpenVal 180;
+
 
 //Serial Commands
 const int SerialBaudRate = 9600;
@@ -62,6 +68,7 @@ void setup() {
   //initialize robot controller pins
   left.attach(leftServoPin); 
   right.attach(rightServoPin);
+  claw.attach(clawPin);
   //set initial direction to center and initial speed to 0
   stop();
   //led setup
@@ -150,3 +157,15 @@ void stop(){
   left.write(leftStopValue);
   right.write(rightStopValue);
 }
+
+void openClaw(){
+  claw.write(clawOpenValue);
+  delay(500);
+  claw.write(clawStopValue);
+}
+
+void closeClaw(){
+
+  claw.write(clawCloseValue);
+}
+
