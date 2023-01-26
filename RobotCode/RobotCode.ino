@@ -25,13 +25,12 @@ const int ledPin = 5;
 //Servo values
 const int rightStopValue = 95;
 const int leftStopValue = 94;
-const int leftStopValue = 94;
 const int leftForwardVal = 0;
 const int rightForwardVal = 180;
 const int leftBackVal = 180;
 const int rightBackVal = 0;
-const int clawCloseVal = 0;
-const int clawOpenVal 180;
+const int clawCloseVal = 5;
+const int clawOpenVal = 100;
 
 
 //Serial Commands
@@ -69,6 +68,7 @@ void setup() {
   left.attach(leftServoPin); 
   right.attach(rightServoPin);
   claw.attach(clawPin);
+  claw.write(clawCloseVal);
   //set initial direction to center and initial speed to 0
   stop();
   //led setup
@@ -96,6 +96,8 @@ void loop() {
         turnRight();
       }else if (command == "BACK"){ // reverse
         back();
+      }else if(command == "GRAB"){
+        openClaw();        
       }
       // print recieved message/command
       Serial.println(command);
@@ -128,6 +130,8 @@ void loop() {
       turnRight();
     }else if (c == 'S') {
       stop();
+    }else if (c == 'G'){
+      openClaw();
     }
   }
 
@@ -159,13 +163,12 @@ void stop(){
 }
 
 void openClaw(){
-  claw.write(clawOpenValue);
+  claw.write(clawOpenVal);
   delay(500);
-  claw.write(clawStopValue);
+  claw.write(clawCloseVal);
 }
 
 void closeClaw(){
-
-  claw.write(clawCloseValue);
+  claw.write(clawCloseVal);
 }
 
