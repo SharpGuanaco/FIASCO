@@ -1,19 +1,14 @@
-#include <SoftwareSerial.h>
+#include <Wire.h>
 
 // Set up a new SoftwareSerial object with RX in digital pin 10 and TX in digital pin 11
-SoftwareSerial mySerial(10, 11);
-
 void setup() {
     // Set the baud rate for the SerialSoftware object
-    mySerial.begin(9600);
+    //mySerial.begin(9600);
+      Wire.begin(); 
 }
 
-int i = 45;
+int i = 0;
 void loop() {
     // Send a byte with the value 45
-    mySerial.write(i);
     i++;
-
-    //Send the string “hello” and return the length of the string.
-    int bytesSent = mySerial.write("hello");
 }
