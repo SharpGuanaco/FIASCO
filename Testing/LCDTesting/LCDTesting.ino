@@ -52,8 +52,9 @@ void setup() {
   // set up the LCD's number of columns and rows:
   lcd.begin(16, 2);
   // Print a message to the LCD.
-  String testing = "PENISPENISPENIS";
-  lcd.print(testing);
+  String testing = "Initing..";
+  lcd.print(testing);    
+  Serial1.begin(9600); //0 and 1
 }
 
 void loop() {
@@ -61,7 +62,11 @@ void loop() {
   // (note: line 1 is the second row, since counting begins with 0):
   lcd.setCursor(0, 1);
   // print the number of seconds since reset:
-  lcd.print("PENISPENISPENIS");
+  String input = "";
+  if(Serial1.available()){
+    input = Serial1.read();
+  }
+  lcd.print(input);
 
 }
 
