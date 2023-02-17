@@ -74,6 +74,12 @@ void loop() {
   //send updates to robot controller arduino
   bool report = radio.write(&messageIndex, sizeof(unsigned long));
   Serial.println(report);
+
+
+  //send data to LCD
+  unsigned char *data = (unsigned char*)&messageIndex;
+  Serial.write(data);
+
   //delay to allow for finger movements, adjust as needed
   delay(radioDelay);
 }

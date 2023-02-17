@@ -19,7 +19,7 @@ void loop() {
     char data_rcvd = Serial1.read();   // read one byte from serial buffer and save to data_rcvd
     Serial.println(data_rcvd);
     if(data_rcvd=='0'){
-    lcd.print("GRAB");
+    lcd.print("GRAB    ");
     }else{
       lcd.print("FORWARD");
     }
