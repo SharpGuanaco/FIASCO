@@ -15,6 +15,7 @@ const String messages[messageLength] = {
   "BACK   ",
   "CENTER "
 };
+String command = "";
 
 void setup() {
   //start LCD display
@@ -33,27 +34,29 @@ void loop() {
   lcd.setCursor(0, 1);
   if (Serial1.available()) {
     char data_in = Serial1.read();   // read one byte from serial buffer and save to data_in
-    Serial.println(data_rcvd);
+    Serial.println(data_in);
 
-    int recieved = data_in - '0'; // convert recieved character to integer
+    int received = data_in - '0'; // convert recieved character to integer
 
     if (received >= 0 && received <= 999){
-      String command = messages[received];
-      lcd.print(commmand);
+      command = messages[received];
+      lcd.print(command);
       // print recieved message/command
       Serial.println(command);
     }else if(received == 1000){
       // blank command received
-      lcd.print("NONE   ")
+      lcd.print("NONE   ");
       Serial.println("NONE");
       // set speed to 0 when no forward or reverse command is received
     }else{
       // error in receiving
-      lcd.print("ERROR    ")
+      lcd.print("ERROR    ");
       Serial.println("ERROR");
       Serial.println(received);
     }
     
+  }else{
+    Serial.println("broken");
   }
 
 }

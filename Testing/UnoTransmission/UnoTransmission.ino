@@ -1,11 +1,26 @@
+  int messageIndex = 0;
+
 void setup() {
   Serial.begin(9600);       // initialize UART with baud rate of 9600 bps
 }
 
 void loop() {
-  Serial.write('0');    // send the char '0' to serial if button is not pressed.
-  delay(1000);
-  Serial.write('1');                           // send the char '1' to serial if button is pressed.
+
+  if(messageIndex == 0){
+    messageIndex = 1;
+  }else {
+    messageIndex = 0;
+  }
+
+  char b[2];
+
+  String str;
+
+  str=String(messageIndex);
+
+  str.toCharArray(b,2);
+
+  Serial.write(b);
   delay(1000);
 
 }

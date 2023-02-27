@@ -77,7 +77,10 @@ void loop() {
 
 
   //send data to LCD
-  unsigned char *data = (unsigned char*)&messageIndex;
+  char data[2];
+  String str;
+  str=String(messageIndex);
+  str.toCharArray(data,2);
   Serial.write(data);
 
   //delay to allow for finger movements, adjust as needed
