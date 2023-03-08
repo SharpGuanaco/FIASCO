@@ -22,12 +22,12 @@ const int numMessages = 6;
 //next add the wanted trigger to the end of the array, in {thumb,pointer,middle,ring,pinky} format. 
 //True means the finger is contracted while false means the finger is extended
 const bool checks[numMessages][5] = {
-  {true,false,true,false,false}, // GRAB
+  {true,true,true,false,false}, // GRAB
   {true,false,false,false,false}, // FORWARD
-  {false,true,false,false,false}, // LEFT
+  {false,false,true,false,false}, // LEFT
   {false,true,true,false,false}, // RIGHT
-  {false,false,true,false,false}, // BACK
-  {true,false,false,false,true} // CENTER
+  {false,true,false,false,false}, // BACK
+  {true,true,false,false,false} // RELEASE
 };
 //related Strings, add the wanted command to the end of the list
 //not actually transmitted, but useful for troubleshooting. The other arduino converts the index of the list to the necessary message.
@@ -38,7 +38,7 @@ const String messages[numMessages] = {
   "LEFT",
   "RIGHT",
   "BACK",
-  "CENTER"
+  "RELEASE"
 };
 
 // transmission rate of radio, in ms
@@ -76,12 +76,12 @@ void loop() {
   Serial.println(report);
 
 
-  //send data to LCD
-  char data[2];
-  String str;
-  str=String(messageIndex);
-  str.toCharArray(data,2);
-  Serial.write(data);
+  // //send data to LCD
+  // char data[2];
+  // String str;
+  // str=String(messageIndex);
+  // str.toCharArray(data,2);
+  // Serial.write(data);
 
   //delay to allow for finger movements, adjust as needed
   delay(radioDelay);

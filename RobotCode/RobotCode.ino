@@ -29,8 +29,8 @@ const int leftForwardVal = 0;
 const int rightForwardVal = 180;
 const int leftBackVal = 180;
 const int rightBackVal = 0;
-const int clawCloseVal = 5;
-const int clawOpenVal = 100;
+const int clawCloseVal = 75;
+const int clawOpenVal = 25;
 
 
 //Serial Commands
@@ -47,7 +47,7 @@ const String messages[messageLength] = {
   "LEFT",
   "RIGHT",
   "BACK",
-  "CENTER"
+  "RELEASE"
 };
 
 
@@ -98,6 +98,8 @@ void loop() {
         back();
       }else if(command == "GRAB"){
         openClaw();        
+      }else if(command == "RELEASE"){
+        closeClaw();
       }
       // print recieved message/command
       Serial.println(command);
@@ -164,8 +166,6 @@ void stop(){
 
 void openClaw(){
   claw.write(clawOpenVal);
-  delay(500);
-  claw.write(clawCloseVal);
 }
 
 void closeClaw(){
